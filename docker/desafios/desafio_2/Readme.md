@@ -5,6 +5,7 @@ A aplicação irá subir na porta 80 , podendo ser acessada por
 http://localhost
 
 Papel de cada imagem 
+
 Mysql
 	- Banco de dados mysql , dessa forma os dados inseridos pela aplicação podem ser persistidos 
 	- Dentro do diretorio mysql/initdb contêm o script que será executado quando o banco inicializar 
