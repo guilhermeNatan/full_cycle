@@ -1,0 +1,103 @@
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FULL CYCLE - DOCKER</title>
+    <style>
+        body {
+            background-color: #fff; /* fundo branco */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #conteudo {
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="conteudo">
+        <div style="margin:10px; font-size: 1.5rem;">FullCycle: Cadastro de nomes</div>
+        <input type="text" id="campoTexto" placeholder="Digite algo...">
+        <button onclick="inserirTexto()">Inserir</button>
+        <button onclick="listar()">Listar</button>
+    </div>
+
+    <script>
+        function inserirTexto() {
+			var dadosParaEnviar = document.getElementById('campoTexto').value;
+        	const configuracaoSolicitacao = {
+			  method: 'POST', 
+			  headers: {
+			    'Content-Type': 'application/json' 
+			  },
+			  body: JSON.stringify({nomePessoa: dadosParaEnviar}) 
+			};
+
+
+            
+            fetch("http://localhost/api/inserir", configuracaoSolicitacao)
+				  .then(response => {
+				    if (!response.ok) {
+				      throw new Error(`Erro na solicitação: ${response.status}`);
+				    }
+				    return response.json(); // Converte a resposta para JSON
+				  })
+				  .then(data => {
+				    console.log('Resposta do servidor:',  data);
+				    alert("nome inserido: " + JSON.stringify(data) );
+				  })
+				  .catch(error => {
+				    console.error('Erro na solicitação:', error);
+				  });
+
+           
+        }
+
+
+
+
+           function listar() {
+         
+            const configuracaoSolicitacao = {
+              method: 'GET', // Método HTTP
+              headers: {
+                'Content-Type': 'application/json' 
+              },
+           
+            };
+            
+            fetch("http://localhost/api/listar", configuracaoSolicitacao)
+                  .then(response => {
+                    if (!response.ok) {
+                      throw new Error(`Erro na solicitação: ${response.status}`);
+                    }
+                    return response.json(); 
+                  })
+                  .then(data => {
+                    console.log('Resposta do servidor:', data);
+                    alert("dados persistidos no banco : " + JSON.stringify(data) );
+                  })
+                  .catch(error => {
+                    console.error('Erro na solicitação:', error);
+                  });
+
+           
+        }
+    </script>
+</body>
+</html>
