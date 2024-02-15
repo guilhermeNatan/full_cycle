@@ -7,7 +7,9 @@ Para execua a aplicação execute
 A aplicação irá subir na porta 80 , podendo ser acessada por 
 http://localhost
 
+
 **Papel de cada imagem** 
+
 
 Mysql
  * Banco de dados mysql , dessa forma os dados inseridos pela aplicação podem ser persistidos 
