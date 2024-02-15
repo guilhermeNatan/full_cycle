@@ -17,6 +17,7 @@ Mysql
 
 Backend
 * Servidor node da aplicação,  dentro do arquivo index.js é definido as rotas da api. Foram definidas duas rotas principais api/inserir e api/listar que inserem e lista os dados persistidos no banco de dados 
+Foi feito o mapeamento de volumes da pasta node , dessa forma é possível criar arquivos 'compartilhados' entre a máquina host e o container.  
 
 Nginx:
 
@@ -40,7 +41,7 @@ os containers devem seguir a seguinte ordem ao ser inicializados
 Problema com a imagem do mysql que não inicializava : 
 https://stackoverflow.com/questions/65245078/docker-image-build-context-canceled-error-on-windows-10 
 
-Para fazer o compartilhamento de volume entre maquina host e container foi necessário explicitar o caminho da pasta node_modules la lista de volumes 
+Para fazer o compartilhamento de volume entre máquina host e container foi necessário explicitar o caminho da pasta node_modules la lista de volumes 
 https://stackoverflow.com/questions/30043872/docker-compose-node-modules-not-present-in-a-volume-after-npm-install-succeeds
 
 
