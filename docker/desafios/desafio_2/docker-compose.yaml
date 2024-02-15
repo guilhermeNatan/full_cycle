@@ -5,41 +5,48 @@ services:
     build:
       dockerfile: ./nginx/Dockerfile.prod
     container_name: nginx
+    entrypoint: dockerize -wait tcp://backend:3000 -timeout 20s /docker-entrypoint.sh nginx -g 'daemon off;'
     image: nginx:0.0.1
-    networks: 
-     - node-network 
+    networks:
+     - node-network
     tty: true
-    ports: 
+    ports:
       - "80:80"
     depends_on:
       - backend
 
   backend:
     build:
-      dockerfile: ./node/Dockerfile.prod 
+      dockerfile: ./node/Dockerfile.prod
     container_name: backend
-    image: backend:0.0.1   
-    networks: 
-      - node-network 
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh node index.js
+    image: backend:0.0.1
+    networks:
+      - node-network
     tty: true
-    ports: 
+    volumes:
+      - ./node:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
       - "3000:3000"
-    depends_on: 
+    depends_on:
       - db
 
   db:
     image: mysql:5.7
     command: --innodb-use-native-aio=0
     container_name: db
-    restart: always 
+    restart: always
     tty: true
     volumes:
       - ./mysql/db:/var/lib/mysql
       - ./mysql/initdb:/docker-entrypoint-initdb.d
-    environment: 
+    environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
-    networks: 
+    ports:
+      - "5000:3306"
+    networks:
       - node-network
 
 networks:

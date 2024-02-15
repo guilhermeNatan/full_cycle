@@ -4,7 +4,7 @@
 Para execua a aplicação execute 
 `docker-compose up -d`
 
-A aplicação irá subir na porta 80 , podendo ser acessada por 
+A aplicação irá subir na porta 80 podendo ser acessada por 
 http://localhost
 
 
@@ -22,6 +22,13 @@ Nginx:
 
 * Proxy reverso do nginx , responsável por servir o frontend da aplicação e fazer o proxy com a imagem do backend. Foram definidas duas configurações de location  dentro do arquivo nginx.conf  barra (/) onde será retornado o frontend da aplicação e /api  que é um proxi para a backend da aplicação que esta definido na imagem backend, ou seja, todo chamada para /api será direcionada para o backend 
 
+**Dependencias entre os containes**
+
+Para garantir a ordem de inicialização dos containers foi utilizado o **dockerize** 
+os containers devem seguir a seguinte ordem ao ser inicializados 
+1. db
+1. backend
+1. nginx 
 
 **Otimizações** 
 * Definir previamente as dependencias dentro do node/package.json, dessa forma apenas um comando RUN npm install dentro da imagem já instala todas as dependencias 
@@ -32,4 +39,8 @@ Nginx:
 
 Problema com a imagem do mysql que não inicializava : 
 https://stackoverflow.com/questions/65245078/docker-image-build-context-canceled-error-on-windows-10 
+
+Para fazer o compartilhamento de volume entre maquina host e container foi necessário explicitar o caminho da pasta node_modules la lista de volumes 
+https://stackoverflow.com/questions/30043872/docker-compose-node-modules-not-present-in-a-volume-after-npm-install-succeeds
+
 
